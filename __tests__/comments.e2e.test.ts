@@ -164,7 +164,7 @@ let jwtToken=''
             .set('Authorization', `Bearer ${jwtToken}`)
             .send({content:'content for comments for post'})
             .expect(STATUS_CODE.NOT_FOUND_404)
-        //console.log(res.body)
+
     })
 
 

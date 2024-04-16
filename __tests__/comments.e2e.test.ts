@@ -200,7 +200,7 @@ let commentId=''
             .set('Authorization', `Bearer ${jwtToken}`)
             .send({content:'secondNewComment secondNewComment'})
             .expect(STATUS_CODE.CREATED_201)
-        //console.log(res.body)
+
         commentId=res.body.id
 
     })

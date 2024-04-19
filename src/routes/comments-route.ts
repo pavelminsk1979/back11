@@ -80,6 +80,27 @@ commentsRoute.put('/:commentId',commentIdMiddleware,isExistCommentMiddleware,aut
 
 
 
+commentsRoute.put('/:commentId/like-status',commentIdMiddleware,isExistCommentMiddleware,authTokenMiddleware,commentIsOwnMiddleware,contentValidationComments,errorValidationBlogs, async (req: RequestWithParamsWithBody<IdCommentParam,CreateComentBodyModel>, res: Response)=>{
+
+    try {
+        const isUpdateComment = await commentsSevrice.updateComment(req.params.commentId,req.body.content)
+
+        if(isUpdateComment){
+
+            return res.sendStatus(STATUS_CODE.NO_CONTENT_204)
+        }else {
+            return res.sendStatus(STATUS_CODE.NO_RESPONSE_444)
+        }
+
+    } catch (error) {
+
+        console.log(' FIlE comments-routes.ts put-/:commentId' + error)
+        return res.sendStatus(STATUS_CODE.SERVER_ERROR_500)
+    }
+})
+
+
+
 
 
 

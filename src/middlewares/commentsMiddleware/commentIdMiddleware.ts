@@ -8,7 +8,7 @@ export const commentIdMiddleware = async (req: any, res: Response, next: NextFun
 
     const id = req.params.commentId.trim()
     const result = await ObjectId.isValid(id)
-
+debugger
     if (result) {
         return next()
     } else {

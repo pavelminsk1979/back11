@@ -12,6 +12,8 @@ import {CreateComentBodyModel} from "../models/CreateComentBodyModel";
 import {contentValidationComments} from "../middlewares/commentsMiddleware/contentValidationComments";
 import {errorValidationBlogs} from "../middlewares/blogsMiddelwares/errorValidationBlogs";
 import {isExistCommentMiddleware} from "../middlewares/commentsMiddleware/isExistCommentMiddleware";
+import {likeStatusValidation} from "../middlewares/commentsMiddleware/likeStatusValidation";
+import {LikeStatusBodyModel} from "../models/LikeStatusBodyModel";
 
 
 export const commentsRoute = Router({})
@@ -80,21 +82,19 @@ commentsRoute.put('/:commentId',commentIdMiddleware,isExistCommentMiddleware,aut
 
 
 
-commentsRoute.put('/:commentId/like-status',commentIdMiddleware,isExistCommentMiddleware,authTokenMiddleware,commentIsOwnMiddleware,contentValidationComments,errorValidationBlogs, async (req: RequestWithParamsWithBody<IdCommentParam,CreateComentBodyModel>, res: Response)=>{
+commentsRoute.put('/:commentId/like-status',commentIdMiddleware,isExistCommentMiddleware,authTokenMiddleware,likeStatusValidation,errorValidationBlogs, async (req: RequestWithParamsWithBody<IdCommentParam,LikeStatusBodyModel>, res: Response)=>{
 
     try {
-        const isUpdateComment = await commentsSevrice.updateComment(req.params.commentId,req.body.content)
+        await commentsSevrice.setOrUpdateLikeStatus(req.params.commentId,
+            req.body.likeStatus,
+            req.userIdLoginEmail.id)
 
-        if(isUpdateComment){
 
-            return res.sendStatus(STATUS_CODE.NO_CONTENT_204)
-        }else {
-            return res.sendStatus(STATUS_CODE.NO_RESPONSE_444)
-        }
+        return res.sendStatus(STATUS_CODE.NO_CONTENT_204)
 
     } catch (error) {
 
-        console.log(' FIlE comments-routes.ts put-/:commentId' + error)
+        console.log(' FIlE comments-routes.ts put-/:commentId/like-status' + error)
         return res.sendStatus(STATUS_CODE.SERVER_ERROR_500)
     }
 })

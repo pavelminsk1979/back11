@@ -5,7 +5,7 @@ import { User} from "../allTypes/userTypes";
 import {Comment} from "../allTypes/commentTypes";
 import {Visit} from "../allTypes/visitTypes";
 import {UsersDevices} from "../allTypes/usersDevicesTypes";
-import {LikesComments} from "../allTypes/LikesCommentsType";
+import {LikesComments, StatusLike} from "../allTypes/LikesCommentsType";
 import mongoose from 'mongoose'
 
 
@@ -91,11 +91,24 @@ const usersDeviceScheme = new mongoose.Schema<UsersDevices>({
 })
 export const usersDevicesModel = mongoose.model<UsersDevices>('users_devices', usersDeviceScheme);
 
-const LikesCommentsScheme = new mongoose.Schema<LikesComments>({
+/*const LikesCommentsScheme = new mongoose.Schema<LikesComments>({
     commentId: String,
     userId: String,
     statusLike: String
 })
+export const LikesCommentsModel = mongoose.model<LikesComments>('likes_comments', LikesCommentsScheme);*/
+
+const LikesCommentsScheme = new mongoose.Schema({
+    commentId: String,
+    likesInfo: [{
+        userId: String,
+        statusLike: {
+            type: String,
+            enum: Object.values(StatusLike)
+        },
+    }]
+});
+
 export const LikesCommentsModel = mongoose.model<LikesComments>('likes_comments', LikesCommentsScheme);
 
 

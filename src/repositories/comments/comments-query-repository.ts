@@ -9,7 +9,7 @@ import {newCommentMaper} from "../../mapers/newCommentMaper";
 
 export const commentsQueryRepository = {
 
-    async findCommentById(id: string) {
+    async findCommentById(id: string,userId:string) {
 
         const comment = await commentsModel.findOne({_id: new ObjectId(id)})
 
@@ -23,7 +23,7 @@ export const commentsQueryRepository = {
             likesInfo=oneEntityLikeCommentByCommentId
         }
 
-        return newCommentMaper(comment,likesInfo)
+        return newCommentMaper(comment,likesInfo,userId)
 
     },
 

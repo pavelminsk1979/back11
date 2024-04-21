@@ -7,6 +7,8 @@ import {Comment, CommentatorInfo} from "../allTypes/commentTypes";
 import {commentsRepository} from "../repositories/comments/comments-repository";
 import {commentsQueryRepository} from "../repositories/comments/comments-query-repository";
 import {ResultCode} from "../common/object-result";
+import {commentMaper} from "../mapers/commentMaper";
+import {commentForPostMaper} from "../mapers/commentForPostMaper";
 
 
 
@@ -103,10 +105,12 @@ export const postsSevrice = {
 
         const newComment = await commentsQueryRepository.findCommentById(idComment)
 
+        const commentForPost=commentForPostMaper(newComment)
+        debugger
         return {
             code:ResultCode.Success,
             errorMessage:'',
-            data:newComment
+            data:commentForPost
         }
     }
 

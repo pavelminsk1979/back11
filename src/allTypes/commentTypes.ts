@@ -13,6 +13,21 @@ export type Comment={
 }
 
 
+type LikesInfo={
+    likesCount:number,
+    dislikesCount:number,
+    myStatus:string,
+}
+
+
+export type NewOutputComment={
+    id:string
+    content:string
+    createdAt:string
+    commentatorInfo:CommentatorInfo
+    likesInfo:LikesInfo
+}
+
 export type OutputComment={
     id:string
     content:string

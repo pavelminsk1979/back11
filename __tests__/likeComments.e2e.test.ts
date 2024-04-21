@@ -160,5 +160,24 @@ let idComment:string
 
 
 
+/*    it(" get request OK ",async ()=>{
+        const res =await req
+            .get(`/comments/${idComment}`)
+
+            .expect(STATUS_CODE.SUCCESS_200)
+        console.log(res.body)
+
+    })*/
+
+    it('Get post bu incorrect id',async ()=>{
+        const res =await req
+            .get('/comments/'+idComment)
+            .expect(STATUS_CODE.SUCCESS_200)
+        console.log(res.body)
+
+    })
+
+
+
 
 })

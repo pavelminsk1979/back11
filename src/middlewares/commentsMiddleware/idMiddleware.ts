@@ -4,9 +4,9 @@ import {STATUS_CODE} from "../../common/constant-status-code";
 
 
 
-export const commentIdMiddleware = async (req: any, res: Response, next: NextFunction) => {
-
-    const id = req.params.commentId.trim()
+export const idMiddleware = async (req: any, res: Response, next: NextFunction) => {
+    debugger
+    const id = req.params.id.trim()
     debugger
     const result = await ObjectId.isValid(id)
 

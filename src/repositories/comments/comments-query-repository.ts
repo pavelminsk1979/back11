@@ -1,7 +1,8 @@
-import { commentsModel} from "../../db/mongoDb";
+import {commentsModel, LikesCommentsModel} from "../../db/mongoDb";
 import {ObjectId} from "mongodb";
 import {commentMaper} from "../../mapers/commentMaper";
 import {SortDataGetCoomentsForCorrectPost} from "../../allTypes/commentTypes";
+import {newCommentMaper} from "../../mapers/newCommentMaper";
 
 
 
@@ -14,8 +15,24 @@ export const commentsQueryRepository = {
 
         if(!comment) return null
 
-        return commentMaper(comment)
+        const oneEntityLikeCommentByCommentId=await  LikesCommentsModel.findOne({commentId: new ObjectId(id)})
+
+        let likesInfo=null
+
+        if(oneEntityLikeCommentByCommentId){
+            likesInfo=oneEntityLikeCommentByCommentId
+        }
+
+        return newCommentMaper(comment,likesInfo)
     },
+/*    async findCommentById(id: string) {
+
+        const comment = await commentsModel.findOne({_id: new ObjectId(id)})
+
+        if(!comment) return null
+
+        return commentMaper(comment)
+    },*/
 
 
     async getCommentsForCorrectPost(postId:string,sortData:SortDataGetCoomentsForCorrectPost){

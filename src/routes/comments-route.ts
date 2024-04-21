@@ -14,16 +14,20 @@ import {errorValidationBlogs} from "../middlewares/blogsMiddelwares/errorValidat
 import {isExistCommentMiddleware} from "../middlewares/commentsMiddleware/isExistCommentMiddleware";
 import {likeStatusValidation} from "../middlewares/commentsMiddleware/likeStatusValidation";
 import {LikeStatusBodyModel} from "../models/LikeStatusBodyModel";
+import {IdParam} from "../models/IdParam";
+import {idMiddleware} from "../middlewares/commentsMiddleware/idMiddleware";
+import {isExistCommentMiddlewareById} from "../middlewares/commentsMiddleware/isExistCommentMiddlewareById";
 
 
 export const commentsRoute = Router({})
 
 
-commentsRoute.get('/:commentId', commentIdMiddleware, async (req: RequestWithParams<IdCommentParam>, res: Response) => {
-
+commentsRoute.get('/:id', idMiddleware,isExistCommentMiddlewareById, async (req: RequestWithParams<IdParam>, res: Response) => {
+    debugger
     try {
-        const comment = await commentsQueryRepository.findCommentById(req.params.commentId)
-
+        debugger
+        const comment = await commentsQueryRepository.findCommentById(req.params.id)
+        debugger
         if (comment) {
             return res.status(STATUS_CODE.SUCCESS_200).send(comment)
         } else {

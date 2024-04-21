@@ -23,10 +23,10 @@ export const commentsRoute = Router({})
 
 
 
-commentsRoute.get('/:id', idMiddleware,isExistCommentMiddlewareById, async (req: RequestWithParams<IdParam>, res: Response) => {
+commentsRoute.get('/:id', idMiddleware,isExistCommentMiddlewareById,authTokenMiddleware, async (req: RequestWithParams<IdParam>, res: Response) => {
 
     try {
-        const comment = await commentsQueryRepository.findCommentById(req.params.id)
+        const comment = await commentsQueryRepository.findCommentById(req.params.id,req.userIdLoginEmail.id)
 
         if (comment) {
 

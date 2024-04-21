@@ -5,6 +5,8 @@ import {SortDataGetCoomentsForCorrectPost} from "../../allTypes/commentTypes";
 import {newCommentMaper} from "../../mapers/newCommentMaper";
 
 
+
+
 export const commentsQueryRepository = {
 
     async findCommentById(id: string) {

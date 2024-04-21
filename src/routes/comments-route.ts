@@ -28,7 +28,6 @@ export const commentsRoute = Router({})
 commentsRoute.get('/:id', idMiddleware,isExistCommentMiddlewareById, async (req: RequestWithParams<IdParam>, res: Response) => {
 
     try {
-        debugger
         const accessToken = req.headers.authorization
         const titleAndAccessToken = accessToken!.split(' ')
         //'Bearer lkdjflksdfjlj889765akljfklaj'

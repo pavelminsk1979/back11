@@ -91,12 +91,7 @@ const usersDeviceScheme = new mongoose.Schema<UsersDevices>({
 })
 export const usersDevicesModel = mongoose.model<UsersDevices>('users_devices', usersDeviceScheme);
 
-/*const LikesCommentsScheme = new mongoose.Schema<LikesComments>({
-    commentId: String,
-    userId: String,
-    statusLike: String
-})
-export const LikesCommentsModel = mongoose.model<LikesComments>('likes_comments', LikesCommentsScheme);*/
+
 
 const LikesCommentsScheme = new mongoose.Schema({
     commentId: String,

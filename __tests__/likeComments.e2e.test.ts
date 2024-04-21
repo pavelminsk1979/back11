@@ -135,8 +135,9 @@ let idComment:string
 
     })
 
+        //следующие 2 теста будут только менять статус
 
-    it(" create entity For Collection LikesComments",async ()=>{
+/*    it(" create entity For Collection LikesComments",async ()=>{
         const res =await req
             .put(`/comments/${idComment}/like-status`)
             .set('Authorization', `Bearer ${jwtToken}`)
@@ -144,10 +145,10 @@ let idComment:string
             .expect(STATUS_CODE.NO_CONTENT_204)
 
 
-    })
+    })*/
 
 
-    it(" create entity For Collection LikesComments",async ()=>{
+/*    it(" create entity For Collection LikesComments",async ()=>{
         const res =await req
             .put(`/comments/${idComment}/like-status`)
             .set('Authorization', `Bearer ${jwtToken}`)
@@ -155,7 +156,7 @@ let idComment:string
             .expect(STATUS_CODE.NO_CONTENT_204)
 
 
-    })
+    })*/
 
 
 

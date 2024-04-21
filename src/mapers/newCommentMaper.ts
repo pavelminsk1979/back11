@@ -4,8 +4,9 @@ import {LikesComments, StatusLike} from "../allTypes/LikesCommentsType";
 
 
 
-export const newCommentMaper = (comment:any,entityLikesInfo:LikesComments|null,userId:string):NewOutputComment => {
+export const newCommentMaper = (comment:any,entityLikesInfo:LikesComments|null):NewOutputComment => {
 
+const userId=comment.commentatorInfo.userId
 
     if(!entityLikesInfo){
         return {

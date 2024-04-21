@@ -12,12 +12,19 @@ export type Comment={
     postId:string
 }
 
+type LikesInfo={
+    likesCount:number,
+    dislikesCount:number,
+    myStatus:string,
+}
+
 
 export type OutputComment={
     id:string
     content:string
     createdAt:string
     commentatorInfo:CommentatorInfo
+    likesInfo:LikesInfo
 }
 
 type SortDirection="asc" | "desc"

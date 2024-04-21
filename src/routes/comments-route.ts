@@ -19,7 +19,7 @@ import {LikeStatusBodyModel} from "../models/LikeStatusBodyModel";
 export const commentsRoute = Router({})
 
 
-commentsRoute.get('/:commentId', commentIdMiddleware, async (req: RequestWithParams<IdCommentParam>, res: Response) => {
+commentsRoute.get('/:commentId', commentIdMiddleware,isExistCommentMiddleware, async (req: RequestWithParams<IdCommentParam>, res: Response) => {
 
     try {
         const comment = await commentsQueryRepository.findCommentById(req.params.commentId)

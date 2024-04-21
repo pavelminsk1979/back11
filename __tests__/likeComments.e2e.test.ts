@@ -4,8 +4,7 @@ import {STATUS_CODE} from "../src/common/constant-status-code";
 import mongoose from "mongoose";
 import * as dotenv from "dotenv";
 
-/*этот тест запустить и потом  убрать skip у тех которые имеют
-его*/
+
 dotenv.config()
 
 const  req = supertest(app)

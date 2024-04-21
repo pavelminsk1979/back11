@@ -28,14 +28,14 @@ export const commentsRoute = Router({})
 commentsRoute.get('/:id', idMiddleware,isExistCommentMiddlewareById, async (req: RequestWithParams<IdParam>, res: Response) => {
 
     try {
-
+        debugger
         const accessToken = req.headers.authorization
         const titleAndAccessToken = accessToken!.split(' ')
         //'Bearer lkdjflksdfjlj889765akljfklaj'
         const userId = await tokenJwtServise.getUserIdByToken(titleAndAccessToken[1])
 
         const comment = await newCommentsQueryRepository.findCommentById(req.params.id,userId!)
-
+        debugger
         if (comment) {
 
             return res.status(STATUS_CODE.SUCCESS_200).send(comment)

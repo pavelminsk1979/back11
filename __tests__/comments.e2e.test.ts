@@ -231,6 +231,7 @@ let commentId=''
     it(" get  comment by correct  idComment",async ()=>{
         const res =await req
             .get(`/comments/${commentId}`)
+            .set('Authorization', `Bearer ${jwtToken}`)
             .expect(STATUS_CODE.SUCCESS_200)
 
          //console.log(res.body)
@@ -261,6 +262,7 @@ const updateContent = 'updateContent-updateContent'
 
         const getRes =await req
             .get(`/comments/${commentId}`)
+            .set('Authorization', `Bearer ${jwtToken}`)
             .expect(STATUS_CODE.SUCCESS_200)
 
         //console.log(res.body)

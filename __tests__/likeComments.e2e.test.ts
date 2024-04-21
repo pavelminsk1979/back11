@@ -162,6 +162,7 @@ let idComment:string
     it('Get post bu incorrect id',async ()=>{
         const res =await req
             .get('/comments/'+idComment)
+            .set('Authorization', `Bearer ${jwtToken}`)
             .expect(STATUS_CODE.SUCCESS_200)
         console.log(res.body)
 

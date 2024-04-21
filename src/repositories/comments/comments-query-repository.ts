@@ -23,7 +23,7 @@ export const commentsQueryRepository = {
             likesInfo = oneEntityLikeCommentByCommentId
         }
 
-        return newCommentMaper(comment, likesInfo)
+        return commentMaper(comment)
 
     },
 

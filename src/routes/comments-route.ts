@@ -17,6 +17,8 @@ import {LikeStatusBodyModel} from "../models/LikeStatusBodyModel";
 import {IdParam} from "../models/IdParam";
 import {idMiddleware} from "../middlewares/commentsMiddleware/idMiddleware";
 import {isExistCommentMiddlewareById} from "../middlewares/commentsMiddleware/isExistCommentMiddlewareById";
+import {newCommentsQueryRepository} from "../repositories/comments/new-comments-query-repository";
+import {tokenJwtServise} from "../servisces/token-jwt-service";
 
 
 export const commentsRoute = Router({})
@@ -27,7 +29,12 @@ commentsRoute.get('/:id', idMiddleware,isExistCommentMiddlewareById, async (req:
 
     try {
 
-        const comment = await commentsQueryRepository.findCommentById(req.params.id)
+        const accessToken = req.headers.authorization
+        const titleAndAccessToken = accessToken!.split(' ')
+        //'Bearer lkdjflksdfjlj889765akljfklaj'
+        const userId = await tokenJwtServise.getUserIdByToken(titleAndAccessToken[1])
+
+        const comment = await newCommentsQueryRepository.findCommentById(req.params.id,userId!)
 
         if (comment) {
 

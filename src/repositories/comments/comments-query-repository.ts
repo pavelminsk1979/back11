@@ -24,16 +24,8 @@ export const commentsQueryRepository = {
         }
 
         return newCommentMaper(comment,likesInfo)
+
     },
-/*    async findCommentById(id: string) {
-
-        const comment = await commentsModel.findOne({_id: new ObjectId(id)})
-
-        if(!comment) return null
-
-        return commentMaper(comment)
-    },*/
-
 
     async getCommentsForCorrectPost(postId:string,sortData:SortDataGetCoomentsForCorrectPost){
 

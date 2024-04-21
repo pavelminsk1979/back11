@@ -22,8 +22,9 @@ import {isExistCommentMiddlewareById} from "../middlewares/commentsMiddleware/is
 export const commentsRoute = Router({})
 
 
+
 commentsRoute.get('/:id', idMiddleware,isExistCommentMiddlewareById, async (req: RequestWithParams<IdParam>, res: Response) => {
-    debugger
+
     try {
         debugger
         const comment = await commentsQueryRepository.findCommentById(req.params.id)

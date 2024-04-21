@@ -12,7 +12,6 @@ export type Comment={
     postId:string
 }
 
-
 type LikesInfo={
     likesCount:number,
     dislikesCount:number,

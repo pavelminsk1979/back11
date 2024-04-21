@@ -38,6 +38,7 @@ export type PaginationWithOutputUser<I> = {
     items:I[]
 }
 
+
 type SortDirection="asc" | "desc"
 
 export type QueryUsersInputModal = {

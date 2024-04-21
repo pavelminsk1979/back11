@@ -22,6 +22,7 @@ export type User = {
     blackListRefreshToken:string[]
 }
 
+
 export type OutputUser = {
     id: string,
     login: string,

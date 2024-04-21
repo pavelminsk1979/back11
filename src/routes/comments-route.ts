@@ -26,9 +26,8 @@ export const commentsRoute = Router({})
 commentsRoute.get('/:id', idMiddleware,isExistCommentMiddlewareById, async (req: RequestWithParams<IdParam>, res: Response) => {
 
     try {
-        debugger
         const comment = await commentsQueryRepository.findCommentById(req.params.id)
-        debugger
+
         if (comment) {
             return res.status(STATUS_CODE.SUCCESS_200).send(comment)
         } else {

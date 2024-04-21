@@ -5,29 +5,27 @@ import {SortDataGetCoomentsForCorrectPost} from "../../allTypes/commentTypes";
 import {newCommentMaper} from "../../mapers/newCommentMaper";
 
 
-
-
 export const commentsQueryRepository = {
 
     async findCommentById(id: string) {
 
         const comment = await commentsModel.findOne({_id: new ObjectId(id)})
 
-        if(!comment) return null
+        if (!comment) return null
 
-        const oneEntityLikeCommentByCommentId=await  LikesCommentsModel.findOne({commentId: new ObjectId(id)})
+        const oneEntityLikeCommentByCommentId = await LikesCommentsModel.findOne({commentId: new ObjectId(id)})
 
-        let likesInfo=null
+        let likesInfo = null
 
-        if(oneEntityLikeCommentByCommentId){
-            likesInfo=oneEntityLikeCommentByCommentId
+        if (oneEntityLikeCommentByCommentId) {
+            likesInfo = oneEntityLikeCommentByCommentId
         }
 
-        return newCommentMaper(comment,likesInfo)
+        return newCommentMaper(comment, likesInfo)
 
     },
 
-    async getCommentsForCorrectPost(postId:string,sortData:SortDataGetCoomentsForCorrectPost){
+    async getCommentsForCorrectPost(postId: string, sortData: SortDataGetCoomentsForCorrectPost) {
 
 
         const {sortBy, sortDirection, pageNumber, pageSize} = sortData
@@ -37,7 +35,7 @@ export const commentsQueryRepository = {
 
         const comments = await commentsModel
             .find({postId})
-            .sort({ [sortBy]: sortDirectionValue } )
+            .sort({[sortBy]: sortDirectionValue})
             .skip((pageNumber - 1) * pageSize)
             .limit(pageSize)
             .exec()

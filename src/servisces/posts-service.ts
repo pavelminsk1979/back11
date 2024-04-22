@@ -106,7 +106,7 @@ export const postsSevrice = {
         const newComment = await commentsQueryRepository.findCommentById(idComment)
 
         const commentForPost=commentForPostMaper(newComment)
-        debugger
+
         return {
             code:ResultCode.Success,
             errorMessage:'',

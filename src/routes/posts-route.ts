@@ -24,6 +24,8 @@ import {RequestWithParamsWithQuery} from "../allTypes/RequestWithParamsWithQuery
 import {QueryInputModalGetCommentsForCorrectPost} from "../allTypes/commentTypes";
 import {commentsQueryRepository} from "../repositories/comments/comments-query-repository";
 import {postIdMiddleware} from "../middlewares/postsMiddlewares/postIdMiddleware";
+import {idUserFromAccessTokenMiddleware} from "../middlewares/authMiddleware/idUserFromAccessTokenMiddleware";
+import {isExistPostByPostIdMiddleware} from "../middlewares/postsMiddlewares/isExistPostByPostIdMiddleware";
 
 
 export const postsRoute = Router({})
@@ -112,7 +114,7 @@ postsRoute.post('/:postId/comments',postIdMiddleware, authTokenMiddleware, conte
 })
 
 
-postsRoute.get('/:postId/comments',postIdMiddleware, async (req: RequestWithParamsWithQuery<CreateComentPostIdModel, QueryInputModalGetCommentsForCorrectPost>, res: Response) => {
+postsRoute.get('/:postId/comments',postIdMiddleware,isExistPostByPostIdMiddleware,idUserFromAccessTokenMiddleware,  async (req: RequestWithParamsWithQuery<CreateComentPostIdModel, QueryInputModalGetCommentsForCorrectPost>, res: Response) => {
 
 
     const sortData = {
@@ -131,13 +133,7 @@ postsRoute.get('/:postId/comments',postIdMiddleware, async (req: RequestWithPara
 
     try {
 
-        const post = await postQueryRepository.findPostById(req.params.postId)
-
-        if (!post) {
-            return res.sendStatus(STATUS_CODE.NOT_FOUND_404)
-        }
-
-        const comments = await commentsQueryRepository.getCommentsForCorrectPost(req.params.postId, sortData)
+        const comments = await commentsQueryRepository.getCommentsForCorrectPost(req.params.postId, sortData,req.userId)
 
         return res.status(STATUS_CODE.SUCCESS_200).send(comments)
 

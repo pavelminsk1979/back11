@@ -27,7 +27,7 @@ export const commentsQueryRepository = {
 
     },
 
-    async getCommentsForCorrectPost(postId: string, sortData: SortDataGetCoomentsForCorrectPost) {
+    async getCommentsForCorrectPost(postId: string, sortData: SortDataGetCoomentsForCorrectPost,userId:string|null) {
 
 
         const {sortBy, sortDirection, pageNumber, pageSize} = sortData

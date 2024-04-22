@@ -19,37 +19,40 @@ export const commentsSevrice = {
 
     async setOrUpdateLikeStatus(commentId: string, statusLike: StatusLike, userId: string) {
 
-        const entityForCollectionLikesComments: LikesComments = {
+
+
+        //cоздание  сущности для  коллекции likes_comments
+        const newDocumentForCollectionLikesComments: LikesComments = {
             commentId,
             likesInfo: [
                 {userId, statusLike}
             ]
-        }//cоздание целой сущности для  коллекции likes_comments
-
-
-        //по айдишке коментария нахожу в колекции likes_comments одну сущность
-        const oneEntityLikeCommentByCommentId = await LikesCommentsRepository.findEntityByCommenId(commentId)
-
-        //Если oneEntityLikeCommentByCommentId нету тогда помещаю в базу //вновьсозданую,
-        if (!oneEntityLikeCommentByCommentId) {
-            return LikesCommentsRepository.setEntityForCollectionLikesComments(entityForCollectionLikesComments)
         }
 
-        /*   А если oneEntityLikeCommentByCommentId в базе есть есть
-           тогда ---У сущности есть массив likesInfo с данными о лайках , и в
-           массиве ищу обьект по userId---*/
-        const oneEntityFromLikesInfoByUserId = await LikesCommentsRepository.findEntityByUserId(userId)
+        //по айдишке коментария нахожу в колекции likes_comments одну сущность
+        const documentLikeCommentByCommentId = await LikesCommentsRepository.findEntityByCommenId(commentId)
 
-        /*Если oneEntityFromLikesInfoByUserId есть тогда надо изменить
+
+        //Если  нету такого документа тогда помещаю в базу //вновьсозданный,
+        if (!documentLikeCommentByCommentId) {
+            return LikesCommentsRepository.setEntityForCollectionLikesComments(newDocumentForCollectionLikesComments)
+        }
+
+        /*   А если document в базе есть есть
+           тогда ---У него есть массив likesInfo с данными о лайках , и в
+           массиве ищу обьект по userId---*/
+        const oneObjectByUserId = await LikesCommentsRepository.findEntityByUserId(userId)
+
+        /*Если oneObjectByUserId есть тогда надо изменить
         statusLike на приходящий */
-        if (oneEntityFromLikesInfoByUserId) {
+        if (oneObjectByUserId) {
             return LikesCommentsRepository.setNewStatusLike(userId, statusLike)
         }
 
-        /*Если oneEntityFromLikesInfoByUserId нет тогда надо добавить
+        /*Если oneObjectByUserId  нет тогда надо добавить
         вот такой обьект {userId,statusLike}  в массив likesInfo */
         const newObjectForLikesInfo = {userId, statusLike}
-        if (!oneEntityFromLikesInfoByUserId) {
+        if (!oneObjectByUserId) {
             return LikesCommentsRepository.addNewObjectForLikesInfo(newObjectForLikesInfo, commentId)
         }
 

@@ -92,7 +92,7 @@ postsRoute.post('/:postId/comments',postIdMiddleware, authTokenMiddleware, conte
     try {
 
         const newCommentForPost = await postsSevrice.createCommentForPostByPostId(req.params.postId, req.body.content, req.userIdLoginEmail.id, req.userIdLoginEmail.login)
-        debugger
+
         if (newCommentForPost.code === ResultCode.NotFound) {
             return res.sendStatus(STATUS_CODE.NOT_FOUND_404)
 

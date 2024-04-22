@@ -1,5 +1,4 @@
 import {Response, Router} from "express";
-import {commentsQueryRepository} from "../repositories/comments/comments-query-repository";
 import {RequestWithParams} from "../allTypes/RequestWithParams";
 import {STATUS_CODE} from "../common/constant-status-code";
 import {IdCommentParam} from "../models/IdCommentParam";
@@ -19,26 +18,23 @@ import {idMiddleware} from "../middlewares/commentsMiddleware/idMiddleware";
 import {isExistCommentMiddlewareById} from "../middlewares/commentsMiddleware/isExistCommentMiddlewareById";
 import {newCommentsQueryRepository} from "../repositories/comments/new-comments-query-repository";
 import {tokenJwtServise} from "../servisces/token-jwt-service";
+import {idUserFromAccessTokenMiddleware} from "../middlewares/authMiddleware/idUserFromAccessTokenMiddleware";
 
 
 export const commentsRoute = Router({})
 
 
-
-commentsRoute.get('/:id', idMiddleware,isExistCommentMiddlewareById, async (req: RequestWithParams<IdParam>, res: Response) => {
+commentsRoute.get('/:id', idMiddleware, isExistCommentMiddlewareById, idUserFromAccessTokenMiddleware, async (req: RequestWithParams<IdParam>, res: Response) => {
 
     try {
-        const accessToken = req.headers.authorization
-        const titleAndAccessToken = accessToken!.split(' ')
-        //'Bearer lkdjflksdfjlj889765akljfklaj'
-        const userId = await tokenJwtServise.getUserIdByToken(titleAndAccessToken[1])
+        const userId = req.userId
 
-        const comment = await newCommentsQueryRepository.findCommentById(req.params.id,userId!)
-        debugger
+        if(!userId) return res.sendStatus(STATUS_CODE.NOT_FOUND_404)
+
+        const comment = await newCommentsQueryRepository.findCommentById(req.params.id, userId)
+
         if (comment) {
-
             return res.status(STATUS_CODE.SUCCESS_200).send(comment)
-
         } else {
             return res.sendStatus(STATUS_CODE.NOT_FOUND_404)
         }
@@ -57,7 +53,7 @@ commentsRoute.delete('/:commentId', commentIdMiddleware, isExistCommentMiddlewar
 
         const isCommentDelete = await commentsSevrice.deleteComentById(req.params.commentId)
 
-        if(isCommentDelete){
+        if (isCommentDelete) {
             return res.sendStatus(STATUS_CODE.NO_CONTENT_204)
         } else {
             return res.sendStatus(STATUS_CODE.NOT_FOUND_404)
@@ -71,15 +67,15 @@ commentsRoute.delete('/:commentId', commentIdMiddleware, isExistCommentMiddlewar
 })
 
 
-commentsRoute.put('/:commentId',commentIdMiddleware,isExistCommentMiddleware,authTokenMiddleware,commentIsOwnMiddleware,contentValidationComments,errorValidationBlogs, async (req: RequestWithParamsWithBody<IdCommentParam,CreateComentBodyModel>, res: Response)=>{
+commentsRoute.put('/:commentId', commentIdMiddleware, isExistCommentMiddleware, authTokenMiddleware, commentIsOwnMiddleware, contentValidationComments, errorValidationBlogs, async (req: RequestWithParamsWithBody<IdCommentParam, CreateComentBodyModel>, res: Response) => {
 
     try {
-        const isUpdateComment = await commentsSevrice.updateComment(req.params.commentId,req.body.content)
+        const isUpdateComment = await commentsSevrice.updateComment(req.params.commentId, req.body.content)
 
-        if(isUpdateComment){
+        if (isUpdateComment) {
 
             return res.sendStatus(STATUS_CODE.NO_CONTENT_204)
-        }else {
+        } else {
             return res.sendStatus(STATUS_CODE.NO_RESPONSE_444)
         }
 
@@ -90,15 +86,14 @@ commentsRoute.put('/:commentId',commentIdMiddleware,isExistCommentMiddleware,aut
     }
 
 
-
 })
 
 
-
-commentsRoute.put('/:commentId/like-status',commentIdMiddleware,isExistCommentMiddleware,authTokenMiddleware,likeStatusValidation,errorValidationBlogs, async (req: RequestWithParamsWithBody<IdCommentParam,LikeStatusBodyModel>, res: Response)=>{
+commentsRoute.put('/:commentId/like-status', commentIdMiddleware, isExistCommentMiddleware, authTokenMiddleware, likeStatusValidation, errorValidationBlogs, async (req: RequestWithParamsWithBody<IdCommentParam, LikeStatusBodyModel>, res: Response) => {
 
     try {
-        await commentsSevrice.setOrUpdateLikeStatus(req.params.commentId,
+        await commentsSevrice.setOrUpdateLikeStatus(
+            req.params.commentId,
             req.body.likeStatus,
             req.userIdLoginEmail.id)
 

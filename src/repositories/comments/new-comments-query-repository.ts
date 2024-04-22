@@ -1,7 +1,5 @@
 import {commentsModel, LikesCommentsModel} from "../../db/mongoDb";
 import {ObjectId} from "mongodb";
-import {commentMaper} from "../../mapers/commentMaper";
-import {SortDataGetCoomentsForCorrectPost} from "../../allTypes/commentTypes";
 import {newCommentMaper} from "../../mapers/newCommentMaper";
 
 

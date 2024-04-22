@@ -17,7 +17,6 @@ import {IdParam} from "../models/IdParam";
 import {idMiddleware} from "../middlewares/commentsMiddleware/idMiddleware";
 import {isExistCommentMiddlewareById} from "../middlewares/commentsMiddleware/isExistCommentMiddlewareById";
 import {newCommentsQueryRepository} from "../repositories/comments/new-comments-query-repository";
-import {tokenJwtServise} from "../servisces/token-jwt-service";
 import {idUserFromAccessTokenMiddleware} from "../middlewares/authMiddleware/idUserFromAccessTokenMiddleware";
 
 
@@ -27,11 +26,8 @@ export const commentsRoute = Router({})
 commentsRoute.get('/:id', idMiddleware, isExistCommentMiddlewareById, idUserFromAccessTokenMiddleware, async (req: RequestWithParams<IdParam>, res: Response) => {
 
     try {
-        const userId = req.userId
 
-        if(!userId) return res.sendStatus(STATUS_CODE.NOT_FOUND_404)
-
-        const comment = await newCommentsQueryRepository.findCommentById(req.params.id, userId)
+        const comment = await newCommentsQueryRepository.findCommentById(req.params.id, req.userId)
 
         if (comment) {
             return res.status(STATUS_CODE.SUCCESS_200).send(comment)

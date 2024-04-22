@@ -1,54 +1,69 @@
-
 import {NewOutputComment} from "../allTypes/commentTypes";
 import {LikesComments, StatusLike} from "../allTypes/LikesCommentsType";
 
 
+export const newCommentMaper = (
+    comment: any,
+    documentFromLikeCollection: LikesComments | null,
+    userId: string | null): NewOutputComment => {
 
-export const newCommentMaper = (comment:any,entityLikesInfo:LikesComments|null,userId:string):NewOutputComment => {
 
-
-    if(!entityLikesInfo){
+    if (!documentFromLikeCollection) {
         return {
-            id:comment._id.toString(),
+            id: comment._id.toString(),
             content: comment.content,
             createdAt: comment.createdAt,
             commentatorInfo: {
-                userId,
-                userLogin:comment.commentatorInfo.userLogin
+                userId: comment.commentatorInfo.userId,
+                userLogin: comment.commentatorInfo.userLogin
             },
-            likesInfo:{
+            likesInfo: {
                 "likesCount": 0,
                 "dislikesCount": 0,
                 "myStatus": "None"
             }
-            //commentatorInfo:comment.commentatorInfo
         }
     }
 
-    //из массива likesInfo найду один обьект по userId
-    const objectFromLikesInfo = entityLikesInfo.likesInfo.find(e=>e.userId===userId)
 
 
-    const myStatus=objectFromLikesInfo!.statusLike
 
-        //из массива likesInfo найду все обьекты
+    const arrayLikesInfo=documentFromLikeCollection.likesInfo
+
+    //в  documentFromLikeCollection  есть массив (likesInfo)
+    // и в массиве найду один обьект по userId чтобы узнать
+    //statusLike того кто запрос делает
+
+    let myStatus
+
+
+    const oneObjectFromLikesInfoByUserId = arrayLikesInfo.find(e => e.userId === userId)
+
+
+        myStatus = oneObjectFromLikesInfoByUserId
+            ? oneObjectFromLikesInfoByUserId.statusLike
+            : 'None'
+
+
+
+    //из массива arrayLikesInfo найду все обьекты
     // у которых statusLike.Like
 
-    const arrayWithStatusLikeLike=entityLikesInfo.likesInfo.filter(e=>e.statusLike===StatusLike.Like)
+    const arrayStatusLike = arrayLikesInfo.filter(e => e.statusLike === StatusLike.Like)
 
-    const arrayWithStatusLikeDislike=entityLikesInfo.likesInfo.filter(e=>e.statusLike===StatusLike.Dislike)
+    const arrayStatusDislike = arrayLikesInfo.filter(e => e.statusLike === StatusLike.Dislike)
 
     return {
-        id:comment._id.toString(),
+        id: comment._id.toString(),
         content: comment.content,
         createdAt: comment.createdAt,
         commentatorInfo: {
-            userId,
-            userLogin:comment.commentatorInfo.userLogin
+            userId: comment.commentatorInfo.userId,
+            userLogin: comment.commentatorInfo.userLogin
         },
-        likesInfo:{
-            "likesCount": arrayWithStatusLikeLike.length,
-            "dislikesCount": arrayWithStatusLikeDislike.length,
+        likesInfo: {
+            "likesCount": arrayStatusLike.length,
+            "dislikesCount": arrayStatusDislike.length,
             "myStatus": myStatus
         }
     }

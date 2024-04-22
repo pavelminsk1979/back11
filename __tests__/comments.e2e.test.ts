@@ -153,7 +153,7 @@ let jwtToken=''
             .send({content:'content for comments for post'})
             .expect(STATUS_CODE.CREATED_201)
 
-        console.log(res.body)
+            // console.log(res.body)
 
     })
 
@@ -235,7 +235,7 @@ let commentId=''
             .set('Authorization', `Bearer ${jwtToken}`)
             .expect(STATUS_CODE.SUCCESS_200)
 
-         //console.log(res.body)
+         console.log(res.body)
          //console.log(commentId)
          //console.log(jwtToken)
 

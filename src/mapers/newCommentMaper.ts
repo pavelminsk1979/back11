@@ -28,11 +28,13 @@ export const newCommentMaper = (
 
 
 
-    const arrayLikesInfo=documentFromLikeCollection.likesInfo
+
 
     //в  documentFromLikeCollection  есть массив (likesInfo)
     // и в массиве найду один обьект по userId чтобы узнать
     //statusLike того кто запрос делает
+
+    const arrayLikesInfo=documentFromLikeCollection.likesInfo
 
     let myStatus
 

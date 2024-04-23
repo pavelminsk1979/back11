@@ -58,7 +58,7 @@ export const commentsQueryRepository = {
             page: pageNumber,
             pageSize,
             totalCount,
-            items: arrayComentsWithoutLike
+            items: arrayComments
         }
 
      /*   return {
